@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Weather {
+    id          Int      @id @default(autoincrement())
+    lon         Float
+    lat         Float
+    weatherId   Int
+    main        String
+    description String
+    icon        String
+    base        String
+    temp        Float
+    feels_like  Float
+    temp_min    Float
+    temp_max    Float
+    pressure    Int
+    humidity    Int
+    sea_level   Int
+    grnd_level  Int
+    visibility  Int
+    wind_speed  Float
+    wind_deg    Int
+    wind_gust   Float
+    rain_1h     Float
+    clouds_all  Int
+    dt          Int
+    sys_type    Int
+    sys_id      Int
+    country     String
+    sunrise     Int
+    sunset      Int
+    timezone    Int
+    city_id     Int
+    city_name   String
+    cod         Int
+    timestamp   DateTime @default(now())
+
+    @@unique([lat, lon], name: "lat_lon_unique")
+}
