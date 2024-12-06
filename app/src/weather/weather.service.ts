@@ -15,7 +15,9 @@ export class WeatherService {
     private readonly prisma: PrismaService,
   ) {
     this.apiKey = this.configService.get<string>('OPENWEATHERMAP_API_KEY');
-    this.apiUrlTemplate = this.configService.get<string>('OPENWEATHERMAP_API_URL_TEMPLATE');
+    this.apiUrlTemplate = this.configService.get<string>(
+      'OPENWEATHERMAP_API_URL_TEMPLATE',
+    );
   }
 
   @Cron('0 */2 * * *') // Runs every 2 hours
@@ -27,12 +29,20 @@ export class WeatherService {
     );
   }
 
-  private async updateWeatherData(location: { lat: number; lon: number }) {
+  private async updateWeatherData(location: {
+    lat: number;
+    lon: number;
+    dt: number;
+  }) {
     try {
-      await this.fetchAndStoreWeatherData(location.lat, location.lon);
+      await this.fetchAndStoreWeatherData(
+        location.lat,
+        location.lon,
+        location.dt,
+      );
     } catch (error) {
       console.error(
-        `Failed to update weather for lat: ${location.lat}, lon: ${location.lon}`,
+        `Failed to update weather for lat: ${location.lat}, lon: ${location.lon}, dt: ${location.dt}`,
         error,
       );
     }

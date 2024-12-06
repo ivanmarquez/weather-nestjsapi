@@ -9,10 +9,12 @@ export class WeatherController {
   async getWeatherByCoordinates(
     @Query('lat') lat: string,
     @Query('lon') lon: string,
+    @Query('dt') dt: string,
   ) {
     return this.weatherService.fetchAndStoreWeatherData(
       parseFloat(lat),
-      parseFloat(lon)
+      parseFloat(lon),
+      parseFloat(dt)
     );
   }
 }
